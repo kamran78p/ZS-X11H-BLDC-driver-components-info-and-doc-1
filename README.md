@@ -126,7 +126,101 @@ Hall Sensors → JY01 ←── Speed Pot/DIR/BRAKE
            SSF7508  SSF7508  SSF7508   ← Low-Side N-Channels
               │        │        │
               ┴────────┴────────┴── R005 ── GND
-6. Why This Combo Works So Well Together
+
+
+
+   Note: This driver is a DC three-phase brushless control board, which requires the motor to have a Hall to work normally
+
+This driver is only suitable for brushless DC Hall motors with an electrical angle of 120 degrees
+
+Newly upgraded BLDC wide voltage 6-60V high power 400W DC three-phase brushless Hall controller, support PLC 0-5V analog control, support PWM control, amplitude 2.5-5V
+
+
+Special instructions for external signal input:
+
+1. When the PWM signal is input from the PG 2 ports of the main board (the potentiometer on the board is adjusted to the minimum, and the short interface on the board is shorted as shown in the diagram above), the amplitude is 2.5-5V, and the frequency is 50HZ-20KHZ.
+
+2. When the external analog 0-5V input is input, input from the 2 terminal ports of the main board (the potentiometer on the board is adjusted to the minimum, and the wiring is shown by the dotted line in the figure above)
+
+3. When the external potentiometer is used to adjust the speed, the 3 terminals on the main board should be connected correspondingly (the potentiometer on the board is adjusted to the minimum, and the wiring is shown in the picture of the potentiometer)
+
+4. The forward and reverse rotation and stop are grounded through a switch (0 potential). The low level is active, and the external MCU can also give a low level signal. The brake is connected to a switch and connected to 5V. High level is active. The front row of wiring terminals are all weak current signals that are directly input to the MCU main control, and cannot touch or touch high voltage and strong current.
+
+
+Interface Description:
+
+1. MA MB MC phase line output is connected to the motor
+
+2. 5V GND The motherboard comes with a 5V power supply (the external power supply current does not exceed 50MA)
+
+3. VCC GND main power supply (external DC power supply)
+
+4. SC speed pulse signal output (only the interface is left, no technical support)
+
+5DIR direction control Forward and reverse control interface (active low level can be connected to the ground external switch)
+
+6STOP stop stop control interface (active low level can be connected to the ground external switch)
+
+7BRAKE brake control brake control interface (active high level can be connected to 5V external switch)
+
+8. Speed control and speed control signal input (integrated potentiometer speed control on the board can also be externally connected to 0-5V analog PWM dual-signal input speed control)
+
+9.Ha Hb Hc +5V GND Hall signal power supply input interface, generally motors with Hall have corresponding 5 wires
+
+SMD technology, stable performance after upgrading, with forward and reverse stop and brake function
+
+
+Debugging instructions: Please read and understand before powering on the test machine, it is very important, very important, very important! ! !
+
+
+After receiving the driver board, first check whether the interface can correspond to your brushless motor interface.
+
+1. There are generally 5 Hall cables or interfaces on the brushless motor, two of which are Hall power supply lines and three are Hall signal lines, which should be distinguished, especially the Hall power supply lines (the Hall power supply lines generally use red and black lines. The three Hall signal lines are generally marked with a b c, and there are also three ports such as ha Hb Hc on the driver board, which should be connected accordingly.
+
+2. There are three relatively thick phase wires on the motor. There are also three phase wire interfaces on the driver board. They are marked with MA MB MC and other similar characters, and they are also connected accordingly. After confirmation, the main power supply can be powered on to work normally. (If the interfaces are correctly mapped according to the markings, the power supply will not work properly. It does not rule out the possibility that the manufacturer's markings are not standardized or other reasons. Please debug according to the following 3 interface definitions are unclear)
+
+3. If you do not know the definition of the motor phase wire and the Hall wire, you can connect the three phase wires of the motor to the drive phase wire interface arbitrarily, and at the same time connect the three signal wires of the Hall wire to the Hall interface on the drive board arbitrarily ( But the two Hall power supply lines must find a way to find and connect them, remember!!!) Then when the power is turned on for the first time, the low voltage and small current are debugged (if there are conditions, the constant current power supply voltage can be adjusted to 7-12V current 1-2A), and then by changing the sequence of the three Hall lines arbitrarily (replace any two between the three Hall signal lines of the motor and the driving Hall interface, each time a power-on test is exchanged), until it can rotate smoothly after power-on It means the wiring is correct
+
+4. When the wiring is incorrect, do not debug with high current and high voltage, otherwise there is a risk of damaging the drive board. After the three Hall signal lines are exchanged, if the corresponding connection is correct, the motor will run silky smooth after power on. ; If the three Hall signal lines are not connected in sequence, they generally have the following characteristics:
+
+1. After the power is turned on, the motor cannot start normally and has no response, or it only shakes when it starts and cannot rotate normally
+
+2. It is difficult to start with slight shaking, and sometimes it needs to be manually turned to turn it up.
+
+3. The motor can turn in one direction, but not in the other direction, and some have a slight shower sound
+
+4. The motor starts to vibrate greatly and there is no shower sound. The current is large and the power tube is obviously heated.
+
+Humanized design, the interface adopts the binding post, the heat sink is standard, the speed regulating potentiometer is integrated on the board, it can be used when it is powered on, saving time and effort
+
+Motherboard Specifications:
+
+Product Name: 400W Brushless Hall DC Motor Driver
+
+Model: ZS-X11H V1
+
+Working voltage: 6-60V
+
+Maximum current: rated 16A peak 20A
+
+Maximum power: 400W
+
+Overcurrent protection: yes
+
+Product size: length 63MM* width 45MM* height 31MM
+
+
+Weight: about 77g
+
+Precautions:
+
+1. There is no fuse in the power supply circuit on the main board. Jianyi has added it himself. The reverse connection of the positive and negative poles of the power supply will cause permanent damage to some chips on the board (not for a few seconds at high current)
+
+2. There is sampling overcurrent protection at the motor output during normal operation. Since the power and current of the module are very large, please do not artificially short-circuit the module when the module is not working normally. Once the short-circuit is likely to burn the line and burst the tube, test the machine for the first time. Please test with low current and low voltage. After it is ok, then pass high current and high voltage. Because it is a bare board module for sale, pay attention to the insulation of the wiring head. It is strictly forbidden for strong voltage to touch the parts on the board.
+
+
+3. Do not connect motors that are obviously inconsistent with the voltage, current, and power of the drive module or are far from each other to avoid inexplicable "nonsensical" damage.
+7. Why This Combo Works So Well Together
 JY01 = the brain — knows the sequence, speed, direction, protection
 EG2134 = the muscle amplifier — takes weak 5 V logic → strong 12 V gate drive with built‑in safety
 SSF7508/7509 = the heavy lifters — handle high current efficiently
