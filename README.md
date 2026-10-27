@@ -1,5 +1,9 @@
 # ZS-X11H-BLDC-driver-components-info-and-doc-1
 Information and components for BLDC motor drivers
+
+you can check on youtube
+https://youtu.be/FHV_wv0ZEHw
+
 Complete Working Chain: JY01 → EG2134 → MOSFETs → Motor
 1. Signal Mapping — Exact Pin Connections
 JY01 (16‑pin Controller) → EG2134 (TSSOP‑20 Driver)
